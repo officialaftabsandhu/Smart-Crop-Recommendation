@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Precision Farming - AI Decision Support</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="background-overlay"></div>
+    <div class="background-image" id="bgImage"></div>
+    
+    <header>
+        <nav class="navbar">
+            <div class="logo">
+                <img src="https://images.unsplash.com/photo-1574943320219-553eb213f72d?w=60&h=60&fit=crop" alt="Logo" class="logo-img">
+                <div class="logo-text">
+                    <h1>Precision Farming</h1>
+                    <span>AI Decision Support System</span>
+                </div>
+            </div>
+        </nav>
+        <div class="hero">
+            <h2>Smart Crop Recommendations</h2>
+            <p>Get AI-powered suggestions based on weather, soil, and location</p>
+        </div>
+    </header>
+
+    <main class="container">
+        <div class="input-card">
+            <div class="card-header">
+                <img src="https://images.unsplash.com/photo-1625246333195-78d9c38ad449?w=600&h=200&fit=crop" alt="Farm" class="card-header-img">
+                <div class="card-header-overlay">
+                    <h2>Enter Farm Details</h2>
+                </div>
+            </div>
+            
+            <div class="card-body">
+                <div class="input-group">
+                    <label>City / Location</label>
+                    <div class="autocomplete-wrapper">
+                        <div class="input-icon">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                                <circle cx="12" cy="10" r="3"></circle>
+                            </svg>
+                        </div>
+                        <input type="text" id="cityInput" placeholder="Type city name..." autocomplete="off">
+                        <div class="suggestions" id="suggestions"></div>
+                    </div>
+                </div>
+                
+                <div class="input-group">
+                    <label>Soil Type</label>
+                    <div class="select-wrapper">
+                        <div class="input-icon">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                            </svg>
+                        </div>
+                        <select id="soilType">
+                            <option value="">Select soil type</option>
+                            <option value="clay">Clay Soil</option>
+                            <option value="sandy">Sandy Soil</option>
+                            <option value="loamy">Loamy Soil</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="input-group">
+                    <label>Land Size (Acres)</label>
+                    <div class="input-icon-wrapper">
+                        <div class="input-icon">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                                <line x1="3" y1="9" x2="21" y2="9"></line>
+                                <line x1="9" y1="21" x2="9" y2="9"></line>
+                            </svg>
+                        </div>
+                        <input type="number" id="landSize" placeholder="Enter land size" min="1" value="1">
+                    </div>
+                </div>
+                
+                <button id="getRecommendations" class="btn-primary">
+                    <span>Get Recommendations</span>
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                        <polyline points="12 5 19 12 12 19"></polyline>
+                    </svg>
+                </button>
+            </div>
+        </div>
+
+        <div class="weather-card hidden" id="weatherCard">
+            <div class="weather-header">
+                <img src="https://images.unsplash.com/photo-1504386106331-3e4e71712b38?w=800&h=200&fit=crop" alt="Weather" class="weather-bg">
+                <div class="weather-header-overlay">
+                    <h3>Current Weather Conditions</h3>
+                    <p id="cityName">--</p>
+                </div>
+            </div>
+            <div class="weather-grid">
+                <div class="weather-item">
+                    <div class="weather-icon-box temp">
+                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M14 14.76V3.5a2.5 2.5 0 0 0-5 0v11.26a4.5 4.5 0 1 0 5 0z"></path>
+                        </svg>
+                    </div>
+                    <div class="weather-info">
+                        <span class="weather-label">Temperature</span>
+                        <span class="weather-value" id="tempValue">--</span>
+                    </div>
+                </div>
+                <div class="weather-item">
+                    <div class="weather-icon-box rain">
+                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="16" y1="13" x2="16" y2="21"></line>
+                            <line x1="8" y1="13" x2="8" y2="21"></line>
+                            <line x1="12" y1="15" x2="12" y2="23"></line>
+                            <path d="M20 16.58A5 5 0 0 0 18 7h-1.26A8 8 0 1 0 4 15.25"></path>
+                        </svg>
+                    </div>
+                    <div class="weather-info">
+                        <span class="weather-label">Rainfall</span>
+                        <span class="weather-value" id="rainValue">--</span>
+                    </div>
+                </div>
+                <div class="weather-item">
+                    <div class="weather-icon-box drought">
+                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="5"></circle>
+                            <line x1="12" y1="1" x2="12" y2="3"></line>
+                            <line x1="12" y1="21" x2="12" y2="23"></line>
+                            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                            <line x1="1" y1="12" x2="3" y2="12"></line>
+                            <line x1="21" y1="12" x2="23" y2="12"></line>
+                        </svg>
+                    </div>
+                    <div class="weather-info">
+                        <span class="weather-label">Drought Risk</span>
+                        <span class="weather-value" id="droughtValue">--</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="loading hidden" id="loading">
+            <div class="spinner"></div>
+            <p>Analyzing conditions...</p>
+        </div>
+
+        <div class="error-message hidden" id="errorMessage"></div>
+
+        <div class="results-section hidden" id="resultsSection">
+            <div class="results-header">
+                <h2>Recommended Crops</h2>
+                <p>Based on your soil, weather, and location analysis</p>
+            </div>
+            <div class="cards-grid" id="cardsGrid"></div>
+        </div>
+    </main>
+
+    <footer>
+        <p>Built for Smart Agriculture | Precision Farming DSS</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
